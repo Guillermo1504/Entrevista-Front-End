@@ -5,11 +5,19 @@ import Pagination from "../components/Pagination";
 import Categories from "../components/Categories";
 
 const CategoryPage = () => {
+  // Obtiene el parámetro `category_id` de la URL
   const { category_id } = useParams();
+
+  // Estado para almacenar la lista de productos
   const [products, setProducts] = useState([]);
+
+  //  Estado para la página actual
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Estado para el número total de páginas
   const [totalPages, setTotalPages] = useState(0);
 
+  // useEffect de búsqueda de productos.
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch(
@@ -17,6 +25,8 @@ const CategoryPage = () => {
           (currentPage - 1) * 10
         }&limit=10`
       );
+
+      // Convierte
       const data = await response.json();
       setProducts(data.results);
       setTotalPages(Math.ceil(data.paging.total / 10));
@@ -25,6 +35,7 @@ const CategoryPage = () => {
     fetchProducts();
   }, [category_id, currentPage]);
 
+  // se usa para actualizar el estado currentPage cuando el usuario cambia de página.
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };

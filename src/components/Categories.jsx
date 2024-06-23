@@ -4,13 +4,12 @@ import {
   ListItem,
   ListItemText,
   Collapse,
-  IconButton,
   ListSubheader,
   Paper,
 } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 
+// Estilos personalizados
 const useStyles = makeStyles({
   listItem: {
     borderBottom: "1px solid #0288d1",
@@ -34,10 +33,16 @@ const useStyles = makeStyles({
 });
 
 const Categories = ({ onSelectCategory }) => {
+  // Usa los estilos definidos anteriormente.
   const classes = useStyles();
+
+  // Estado para almacenar la lista de categorías obtenidas de la API.
   const [categories, setCategories] = useState([]);
+
+  // Estado para manejar qué categorías están expandidas o colapsadas.
   const [open, setOpen] = useState({});
 
+  // useEffect para obtener las categorías
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(
@@ -55,6 +60,7 @@ const Categories = ({ onSelectCategory }) => {
     fetchCategories();
   }, []);
 
+  // Actualiza el estado open para alternar la expansión/contracción de una categoría específica.
   const handleToggle = (categoryId) => {
     setOpen((prevOpen) => ({
       ...prevOpen,
@@ -62,6 +68,7 @@ const Categories = ({ onSelectCategory }) => {
     }));
   };
 
+  // Renderiza recursivamente la lista de categorías.
   const renderCategories = (categories) => {
     return categories.map((category) => (
       <React.Fragment key={category.id}>
@@ -74,12 +81,6 @@ const Categories = ({ onSelectCategory }) => {
             primary={category.name}
             onClick={() => onSelectCategory(category.id)}
           />
-          <IconButton
-            className={classes.iconButton}
-            onClick={() => handleToggle(category.id)}
-          >
-            {open[category.id] ? <ExpandLess /> : <ExpandMore />}
-          </IconButton>
         </ListItem>
         <Collapse in={open[category.id]} timeout="auto" unmountOnExit>
           <List component="div" disablePadding className={classes.nested}>

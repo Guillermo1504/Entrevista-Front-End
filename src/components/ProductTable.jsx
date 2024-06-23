@@ -24,6 +24,7 @@ const useStyles = makeStyles({
   tableCellHead: {
     color: "#fff",
     fontWeight: "bold",
+    textAlign: "center",
   },
   tableRow: {
     "&:nth-of-type(odd)": {
@@ -47,6 +48,8 @@ const useStyles = makeStyles({
 
 const ProductTable = ({ products, loading }) => {
   const classes = useStyles();
+
+  // Si está cargando, crea un array de 10 elementos vacíos, si no, usa los productos.
   const rows = loading ? Array.from(new Array(10)) : products;
 
   return (
@@ -60,7 +63,7 @@ const ProductTable = ({ products, loading }) => {
             </TableCell>
             <TableCell className={classes.tableCellHead}>Precio</TableCell>
             <TableCell className={classes.tableCellHead}>
-              MercadoEnlace
+              Mercado Enlace
             </TableCell>
             <TableCell className={classes.tableCellHead}>Imagen</TableCell>
           </TableRow>
