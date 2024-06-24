@@ -1,15 +1,14 @@
-FROM node:alpine
+FROM node:13.12.0-alpine
 
 WORKDIR /app
 
-COPY package.json .
+ENV PATH /app/node_modules/.bin:$PATH
 
-RUN npm install 
+COPY package.json ./
 
-COPY . .
+RUN npm install --silent
+RUN npm install react-scripts@5.0.1 -g --silent
 
-RUN npm run build 
-
-EXPOSE 3000
+COPY . ./
 
 CMD ["npm", "start"]
